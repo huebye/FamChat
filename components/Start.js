@@ -27,18 +27,30 @@ export default class Start extends React.Component {
          value={this.state.text}
          placeholder='Your Name'
        />
-       <Text style={{color: 'white', fontWeight: '500', textAlign: 'center', marginTop: 20}}>Choose Background Color:</Text>
-       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 55}}>
+       <Text style={{color: 'white', fontWeight: '500', textAlign: 'center', marginTop: 30}}>Choose Background Color:</Text>
+       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 45}}>
        <TouchableOpacity style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#FFDD9A', margin: 10}} 
        onPress={() => this.setState({ backColor: '#FFDD9A', textInputColor: '#FFEECD', buttonColor: '#FFC148' })}
+       accessible={true}
+       accessibilityLabel="Option of 3 colors"
+       accessibilityHint="Let’s you choose three different colors for the background color of your choice"
+       accessibilityRole="button"
        >
        </TouchableOpacity>
        <TouchableOpacity style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#B0B8FF', margin: 10}} 
        onPress={() => this.setState({ backColor: '#B0B8FF', textInputColor: '#D2D7FF', buttonColor: '#8A6CFF' })}
+       accessible={true}
+       accessibilityLabel="Option of 3 colors"
+       accessibilityHint="Let’s you choose three different colors for the background color of your choice"
+       accessibilityRole="button"
        >
        </TouchableOpacity>
        <TouchableOpacity style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#ADFFDD', margin: 10}} 
        onPress={() => this.setState({ backColor: '#ADFFDD', textInputColor: '#D4FFED', buttonColor: '#548A73' })}
+       accessible={true}
+       accessibilityLabel="Option of 3 colors"
+       accessibilityHint="Let’s you choose three different colors for the background color of your choice"
+       accessibilityRole="button"
        >
        </TouchableOpacity>
        </View>
