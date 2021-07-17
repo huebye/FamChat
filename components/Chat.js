@@ -2,7 +2,8 @@
 import React from 'react';
 import { View, Platform, KeyboardAvoidingView} from 'react-native';
 import { GiftedChat, Bubble, InputToolbar, SystemMessage, Day, Composer, Send } from 'react-native-gifted-chat'
-import { color } from 'react-native-reanimated';
+const firebase = require('firebase');
+require('firebase/firestore');
 
 export default class Chat extends React.Component {
     constructor(props) {
@@ -10,38 +11,97 @@ export default class Chat extends React.Component {
         this.state = {
             backColor: this.props.route.params.backColor, // gets backColor as a props from Start.js
             messages: [],
+            uid: 0
         }
-    }
 
-// when component is mounted the message is being set 
-    componentDidMount() {
-        this.setState({
-            messages: [
-                {
-                  _id: 1,
-                  text: 'Hello developer',
-                  createdAt: new Date(),
-                  user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                  },
-                 },
-                 {
-                  _id: 2,
-                  text: 'This is a system message',
-                  createdAt: new Date(),
-                  system: true,
-                 },
-              ],
-        })
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+          firebase.initializeApp({
+            apiKey: "AIzaSyAW0LCmy1ck_ZPDwI9QMljtzPFqIzqDvVs",
+            authDomain: "famchat-725cf.firebaseapp.com",
+            projectId: "famchat-725cf",
+            storageBucket: "famchat-725cf.appspot.com",
+            messagingSenderId: "690011239151",
+            appId: "1:690011239151:web:856ebd40885099a41fe11a",
+            measurementId: "G-NED6RF4YMG"
+          });
+        };
+
+        //reference the collection in firebase
+      this.referenceChatMessages = firebase.firestore().collection("messages");
+    };
+
+      // when component is mounted the message is being set 
+      componentDidMount() {
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+            firebase.auth().signInAnonymously();
+          }
+
+          this.setState({
+            uid: user.uid,
+            messages: []
+          });
+
+
+          this.referenceChatMessages = firebase.firestore().collection("messages");
+          this.unsubscribe = this.referenceChatMessages
+            .orderBy("createdAt", "desc")
+            .onSnapshot(this.onCollectionUpdate);
+        });
       }
+
+      componentWillUnmount() {
+        this.unsubscribe();
+     };
+
+      onCollectionUpdate = (querySnapshot) => {
+
+        const messages = [];
+        let user = ''
+        // go through each document
+        querySnapshot.forEach((doc) => {
+          // get the QueryDocumentSnapshot's data
+          var data = doc.data();
+          messages.push({
+            _id: data._id,
+            text: data.text,
+            createdAt: new Date(),
+            user: data.user
+          });
+        });
+        this.setState({
+          messages,
+        });
+      };
+
+// save message on firebase server 
+
+      addMessages = () => {
+        const messages = this.state.messages[0];
+        firebase.firestore().collection('messages').add({
+          _id: messages._id,
+        text: messages.text,
+        createdAt: messages.createdAt,
+        user: {
+          _id: messages.user._id,
+          name: messages.user.name,
+        },
+        }).then()
+        .catch((error) => console.log('error', error));
+      };
+
+
 
       onSend(messages = []) {
         this.setState(previousState => ({
           messages: GiftedChat.append(previousState.messages, messages),
-        }))
-      }
+        }),
+        () => {
+          this.addMessages();
+        }
+        );
+      };
 
 // custom designt for the text message bubbles being send and recieved       
       renderBubble(props) {
@@ -138,6 +198,7 @@ export default class Chat extends React.Component {
         <GiftedChat
         renderBubble={this.renderBubble.bind(this)}
         messages={this.state.messages}
+        renderUsernameOnMessage={true}
         renderInputToolbar={this.customtInputToolbar.bind(this)}
         renderSystemMessage={this.customSystemMessage.bind(this)}
         renderDay={this.customDay.bind(this)}
@@ -146,7 +207,8 @@ export default class Chat extends React.Component {
         timeTextStyle={{ left: { color: '#3E4140' },right: { color:'#3E4140'} }}
         onSend={messages => this.onSend(messages)}
         user={{
-            _id: 1,
+            _id: this.state.uid,
+            name: name
         }}
         />
 
