@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Platform, KeyboardAvoidingView} from 'react-native';
 import { GiftedChat, Bubble, InputToolbar, SystemMessage, Day, Composer, Send } from 'react-native-gifted-chat'
 import AsyncStorage from '@react-native-community/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 const firebase = require('firebase');
 require('firebase/firestore');
 
@@ -39,13 +40,14 @@ export default class Chat extends React.Component {
             firebase.auth().signInAnonymously();
           }
 
-          this.getMessages();
           
           this.setState({
             uid: user.uid,
             messages: []
           });
 
+          this.getMessages();
+          console.log(this.state.uid);
 
           this.referenceChatMessages = firebase.firestore().collection("messages");
           this.unsubscribe = this.referenceChatMessages
@@ -106,7 +108,24 @@ export default class Chat extends React.Component {
         .catch((error) => console.log('error', error));
       };
 
+      async saveMessages() {
+        try {
+          await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
 
+      async deleteMessages() {
+        try {
+          await AsyncStorage.removeItem('messages');
+          this.setState({
+            messages: []
+          })
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
 
       onSend(messages = []) {
         this.setState(previousState => ({
@@ -114,6 +133,7 @@ export default class Chat extends React.Component {
         }),
         () => {
           this.addMessages();
+          this.saveMessages();
         }
         );
       };
