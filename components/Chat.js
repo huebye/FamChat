@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Platform, KeyboardAvoidingView} from 'react-native';
 import { GiftedChat, Bubble, InputToolbar, SystemMessage, Day, Composer, Send } from 'react-native-gifted-chat'
+import AsyncStorage from '@react-native-community/async-storage';
 const firebase = require('firebase');
 require('firebase/firestore');
 
@@ -38,6 +39,8 @@ export default class Chat extends React.Component {
             firebase.auth().signInAnonymously();
           }
 
+          this.getMessages();
+          
           this.setState({
             uid: user.uid,
             messages: []
@@ -54,6 +57,18 @@ export default class Chat extends React.Component {
       componentWillUnmount() {
         this.unsubscribe();
      };
+
+     async getMessages() {
+      let messages = '';
+      try {
+        messages = await AsyncStorage.getItem('messages') || [];
+        this.setState({
+          messages: JSON.parse(messages)
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
 
       onCollectionUpdate = (querySnapshot) => {
 
