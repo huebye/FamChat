@@ -56,12 +56,14 @@ export default class Chat extends React.Component {
                 uid: user.uid,
                 messages: []
               });
+              AsyncStorage.setItem('uid', this.state.uid);
             });
           } else {
             this.setState({
               isConnected: false,
             });
             this.getMessages();
+            this.getUid();
           }
         });
       }
@@ -81,6 +83,18 @@ export default class Chat extends React.Component {
         console.log(error.message);
       }
     };
+
+    async getUid() {
+      let uid = '';
+      try {
+        uid = await AsyncStorage.getItem('uid');
+        this.setState({
+          uid: uid
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
 
       onCollectionUpdate = (querySnapshot) => {
 
