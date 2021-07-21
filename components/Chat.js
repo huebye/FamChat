@@ -13,7 +13,8 @@ export default class Chat extends React.Component {
         this.state = {
             backColor: this.props.route.params.backColor, // gets backColor as a props from Start.js
             messages: [],
-            uid: 0
+            uid: 0,
+            isConnected: false,
         }
 
         // Initialize Firebase
@@ -35,29 +36,38 @@ export default class Chat extends React.Component {
 
       // when component is mounted the message is being set 
       componentDidMount() {
-        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-          if (!user) {
-            firebase.auth().signInAnonymously();
+
+        NetInfo.fetch().then(connection => {
+          if (connection.isConnected) {
+            this.setState({
+              isConnected: true,
+            });
+            this.referenceChatMessages = firebase.firestore().collection("messages");
+              this.unsubscribe = this.referenceChatMessages
+                .orderBy("createdAt", "desc")
+                .onSnapshot(this.onCollectionUpdate);
+
+            this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+              if (!user) {
+                firebase.auth().signInAnonymously();
+              }
+    
+              this.setState({
+                uid: user.uid,
+                messages: []
+              });
+            });
+          } else {
+            this.setState({
+              isConnected: false,
+            });
+            this.getMessages();
           }
-
-          
-          this.setState({
-            uid: user.uid,
-            messages: []
-          });
-
-          this.getMessages();
-          console.log(this.state.uid);
-
-          this.referenceChatMessages = firebase.firestore().collection("messages");
-          this.unsubscribe = this.referenceChatMessages
-            .orderBy("createdAt", "desc")
-            .onSnapshot(this.onCollectionUpdate);
         });
       }
 
       componentWillUnmount() {
-        this.unsubscribe();
+        this.referenceChatMessages = () => {}
      };
 
      async getMessages() {
@@ -75,7 +85,6 @@ export default class Chat extends React.Component {
       onCollectionUpdate = (querySnapshot) => {
 
         const messages = [];
-        let user = ''
         // go through each document
         querySnapshot.forEach((doc) => {
           // get the QueryDocumentSnapshot's data
@@ -158,9 +167,12 @@ export default class Chat extends React.Component {
       }
 
 //custom desing for the input bar       
-      customtInputToolbar(props) {
-        return (
-          <InputToolbar
+
+      renderInputToolbar(props) {
+        if (this.state.isConnected === false) {
+        } else {
+          return(
+            <InputToolbar
             {...props}
             containerStyle={{
               backgroundColor: "inherit",
@@ -168,9 +180,10 @@ export default class Chat extends React.Component {
               padding: 4,
               color: "black"
             }}
-          />
-        );
-      };
+            />
+          );
+        }
+      }
 
 //custom design for the system message text 
       customSystemMessage(props) {
@@ -234,7 +247,7 @@ export default class Chat extends React.Component {
         renderBubble={this.renderBubble.bind(this)}
         messages={this.state.messages}
         renderUsernameOnMessage={true}
-        renderInputToolbar={this.customtInputToolbar.bind(this)}
+        renderInputToolbar={this.renderInputToolbar.bind(this)}
         renderSystemMessage={this.customSystemMessage.bind(this)}
         renderDay={this.customDay.bind(this)}
         renderComposer={this.customComposer.bind(this)}
