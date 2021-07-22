@@ -49,8 +49,9 @@ npm install expo-cli --global
 - Download this repository and run following command in the root folder 
 
 ```
-npm install
+npm install --force
 ```
+- for now -- force is the only way to install all dependencies as some of them are older but for the purpose of this app and its functionalities are required
 ### Run App
 
 - To run the app on a simultaor or the web run following code in the root folder
