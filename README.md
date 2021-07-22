@@ -41,7 +41,8 @@ reader so that I can engage with a chat interface.
 
 
 ## How To Get Started
-###What you will need
+
+### What you will need
 - Node.js 
 - Expo Cli, type in following command in terminal to install expo cli
 ```
