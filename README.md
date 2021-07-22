@@ -67,4 +67,4 @@ npm install --force
 ```
 npm run web
 ```
-- The expo interface will open and you can choose to run either an ios or android simulator, make sure to open your simulator before beuilding it with expo
+- The expo interface will open and you can choose to run the android simulator, make sure to open your simulator before beuilding it with expo
