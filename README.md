@@ -44,7 +44,6 @@ npm install expo-cli --global
 - Create an Expo Accoung here [Expo.io](https://expo.io)
 - If you wish to use a simulator use following instructions
     - [Android Studio](https://docs.expo.io/workflow/android-studio-emulator/)
-    - [iOS Simulator](https://docs.expo.io/workflow/ios-simulator/)
 
 ### Download Project & Install Dependencies
 - Download this repository and run following command in the root folder 
@@ -53,9 +52,7 @@ npm install expo-cli --global
 npm install
 ```
 ### Run App
-- To run the app on an ios simultaor run following code in the root folder
-```
-npm run ios
+
 ```
 - To run the app on an android simultaor run following code in the root folder
 ```
