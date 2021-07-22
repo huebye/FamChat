@@ -31,6 +31,7 @@ reader so that I can engage with a chat interface.
 - Java Script 
 - npm
 - React Native 
+- css
 
 ## Libraries used
 - GiftedChat
