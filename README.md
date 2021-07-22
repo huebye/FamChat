@@ -53,7 +53,6 @@ npm install
 ```
 ### Run App
 
-```
 - To run the app on an android simultaor run following code in the root folder
 ```
 npm run android
