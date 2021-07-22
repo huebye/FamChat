@@ -42,7 +42,7 @@ npm install expo-cli --global
 ```
 - If you wish to use your mobile device, download the Expo Go App 
 - Create an Expo Accoung here [Expo.io](https://expo.io)
-- If you wish to use a simulator use following instructions
+- If you wish to use a simulator use following instructions to install and use Android Studio
     - [Android Studio](https://docs.expo.io/workflow/android-studio-emulator/)
 
 ### Download Project & Install Dependencies
