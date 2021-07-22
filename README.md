@@ -32,6 +32,13 @@ reader so that I can engage with a chat interface.
 - npm
 - React Native 
 
+## Libraries used
+- GiftedChat
+- expo-permissions
+- expo-location
+- expo-image-picker
+- prop-types
+
 
 ## How To Get Started
 ###What you will need
