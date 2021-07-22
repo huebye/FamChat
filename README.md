@@ -33,3 +33,31 @@ reader so that I can engage with a chat interface.
 - React Native 
 
 
+## How To Get Started
+###What you will need
+- Node.js 
+- Expo Cli, type in following command in terminal to install expo cli
+```
+npm install expo-cli --global
+```
+- If you wish to use your mobile device, download the Expo Go App 
+- Create an Expo Accoung here [Expo.io](https://expo.io)
+- If you wish to use a simulator use following instructions
+    - [Android Studio](https://docs.expo.io/workflow/android-studio-emulator/)
+    - [iOS Simulator](https://docs.expo.io/workflow/ios-simulator/)
+
+### Download Project & Install Dependencies
+- Download this repository and run following command in the root folder 
+
+```
+npm install
+```
+### Run App
+- To run the app on an ios simultaor run following code in the root folder
+```
+npm run ios
+```
+- To run the app on an android simultaor run following code in the root folder
+```
+npm run android
+```

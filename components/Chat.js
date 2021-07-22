@@ -5,7 +5,7 @@ import CustomActions from './CustomActions';
 import { GiftedChat, Bubble, InputToolbar, SystemMessage, Day, Composer, Send } from 'react-native-gifted-chat'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
-import { Constants, MapView, Location, Permissions } from 'expo';
+import MapView from 'react-native-maps';
 const firebase = require('firebase');
 require('firebase/firestore');
 
@@ -125,7 +125,7 @@ export default class Chat extends React.Component {
         const messages = this.state.messages[0];
         firebase.firestore().collection('messages').add({
           _id: messages._id,
-        text: messages.text,
+        text: messages.text || null ,
         createdAt: messages.createdAt,
         image: messages.image || null,
         location: messages.location || null,
@@ -289,6 +289,7 @@ export default class Chat extends React.Component {
         renderBubble={this.renderBubble.bind(this)}
         messages={this.state.messages}
         renderUsernameOnMessage={true}
+        renderCustomView={this.renderCustomView}
         renderActions={this.renderCustomActions}
         renderInputToolbar={this.renderInputToolbar.bind(this)}
         renderSystemMessage={this.customSystemMessage.bind(this)}

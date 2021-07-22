@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
-import firestore from 'firebase';
-const firebase = require("firebase");
-require("firebase/firestore");
+import firebase from 'firebase';
+import 'firebase/firestore';
 import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from "expo-location";
+
 
 export default class CustomActions extends React.Component {
     

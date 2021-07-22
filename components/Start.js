@@ -16,9 +16,9 @@ export default class Start extends React.Component {
     this.props.navigation.setOptions({ title: 'FamChat' });
    return (
      <View style={{flex: 1, flexDirection: 'column', backgroundColor: this.state.backColor, alignItems: 'center', justifyContent: 'center'}}>
-         <View style={{flex: 20, justifyContent:'center', position: 'relative', top: 10}}>
-         <Text style={{textAlign: 'center', fontSize: 29,position: 'relative', right: 52}}>Welcome to </Text>
-         <Text style={{textAlign: 'center', fontSize: 45, fontWeight: '800'}}>FamChat</Text>
+         <View style={{flex: 20, justifyContent:'center', position: 'relative', top: 60}}>
+         <Text style={{textAlign: 'center', fontSize: 29,position: 'relative', right: 52, fontWeight: '600'}}>Welcome to </Text>
+         <Text style={{textAlign: 'center', fontSize: 45, fontWeight: '900'}}>FamChat</Text>
          </View>
          <View style={styles.box2}>
          <TextInput
@@ -28,7 +28,7 @@ export default class Start extends React.Component {
          placeholder='Your Name'
        />
        <Text style={{color: 'white', fontWeight: '500', textAlign: 'center', marginTop: 30}}>Choose Background Color:</Text>
-       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 45}}>
+       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
        <TouchableOpacity style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#FFDD9A', margin: 10}} 
        onPress={() => this.setState({ backColor: '#FFDD9A', textInputColor: '#FFEECD', buttonColor: '#FFC148' })}
        accessible={true}
@@ -55,8 +55,8 @@ export default class Start extends React.Component {
        </TouchableOpacity>
        </View>
        <Button
-        color= 'white'
-       onPress={() => this.props.navigation.navigate('Chat', { name: this.state.name, backColor: this.state.backColor })} // send props to Chat via navigator
+        color= '#3E4140'
+       onPress={() => this.props.navigation.navigate('Chat', { name: this.state.name, backColor: this.state.backColor, position: 'relative', top: 20 })} // send props to Chat via navigator
         title="Enter Chat"
         />
         </View>
@@ -67,7 +67,7 @@ export default class Start extends React.Component {
 
 const styles = StyleSheet.create({
     box2: {
-        flex: 30,
+        flex: 40,
         backgroundColor: '#3E4140',
         padding: 20,
         marginBottom: 50,
