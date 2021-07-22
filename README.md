@@ -53,7 +53,8 @@ npm install
 ```
 ### Run App
 
-- To run the app on an android simultaor run following code in the root folder
+- To run the app on a simultaor or the web run following code in the root folder
 ```
-npm run android
+npm run web
 ```
+- The expo interface will open and you can choose to run either an ios or android simulator, make sure to open your simulator before beuilding it with expo
