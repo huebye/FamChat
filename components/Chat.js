@@ -1,9 +1,11 @@
 
 import React from 'react';
 import { View, Platform, KeyboardAvoidingView} from 'react-native';
+import CustomActions from './CustomActions';
 import { GiftedChat, Bubble, InputToolbar, SystemMessage, Day, Composer, Send } from 'react-native-gifted-chat'
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
+import { Constants, MapView, Location, Permissions } from 'expo';
 const firebase = require('firebase');
 require('firebase/firestore');
 
@@ -107,7 +109,9 @@ export default class Chat extends React.Component {
             _id: data._id,
             text: data.text,
             createdAt: new Date(),
-            user: data.user
+            user: data.user,
+            image: data.image || null,
+            location: data.location || null,
           });
         });
         this.setState({
@@ -123,6 +127,8 @@ export default class Chat extends React.Component {
           _id: messages._id,
         text: messages.text,
         createdAt: messages.createdAt,
+        image: messages.image || null,
+        location: messages.location || null,
         user: {
           _id: messages.user._id,
           name: messages.user.name,
@@ -249,6 +255,28 @@ export default class Chat extends React.Component {
         )
     }
 
+    renderCustomActions = (props) => {
+      return <CustomActions {...props} />;
+    };
+
+    renderCustomView(props) {
+      const { currentMessage } = props;
+      if (currentMessage.location) {
+        return (
+          <MapView
+            style={{ width: 150, height: 100, borderRadius: 13, margin: 3 }}
+            region={{
+              latitude: currentMessage.location.latitude,
+              longitude: currentMessage.location.longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }}
+          />
+        );
+      }
+      return null;
+    }
+
   render() {
 
     let name = this.props.route.params.name; // OR ...
@@ -261,6 +289,7 @@ export default class Chat extends React.Component {
         renderBubble={this.renderBubble.bind(this)}
         messages={this.state.messages}
         renderUsernameOnMessage={true}
+        renderActions={this.renderCustomActions}
         renderInputToolbar={this.renderInputToolbar.bind(this)}
         renderSystemMessage={this.customSystemMessage.bind(this)}
         renderDay={this.customDay.bind(this)}
