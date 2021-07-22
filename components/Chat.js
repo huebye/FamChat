@@ -17,7 +17,7 @@ export default class Chat extends React.Component {
             messages: [],
             uid: 0,
             isConnected: false,
-        }
+        };
 
         // Initialize Firebase
         if (!firebase.apps.length) {
@@ -74,6 +74,7 @@ export default class Chat extends React.Component {
         this.referenceChatMessages = () => {}
      };
 
+//get messages from saved messages in localStorage
      async getMessages() {
       let messages = '';
       try {
@@ -96,8 +97,9 @@ export default class Chat extends React.Component {
       } catch (error) {
         console.log(error.message);
       }
-    }
+    };
 
+//takes a snapshot of the data stored on firbase server and updates the state: messages 
       onCollectionUpdate = (querySnapshot) => {
 
         const messages = [];
@@ -120,7 +122,6 @@ export default class Chat extends React.Component {
       };
 
 // save message on firebase server 
-
       addMessages = () => {
         const messages = this.state.messages[0];
         firebase.firestore().collection('messages').add({
@@ -137,13 +138,15 @@ export default class Chat extends React.Component {
         .catch((error) => console.log('error', error));
       };
 
+
+//save messages in localStorage and stringify messages so they can be stored
       async saveMessages() {
         try {
           await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
         } catch (error) {
           console.log(error.message);
         }
-      }
+      };
 
       async deleteMessages() {
         try {
@@ -154,8 +157,9 @@ export default class Chat extends React.Component {
         } catch (error) {
           console.log(error.message);
         }
-      }
+      };
 
+//onSend messages are being added to the state and addMessages(),saveMessages() is called
       onSend(messages = []) {
         this.setState(previousState => ({
           messages: GiftedChat.append(previousState.messages, messages),
@@ -184,10 +188,9 @@ export default class Chat extends React.Component {
             }}
           />
         )
-      }
+      };
 
 //custom desing for the input bar       
-
       renderInputToolbar(props) {
         if (this.state.isConnected === false) {
         } else {
@@ -203,7 +206,7 @@ export default class Chat extends React.Component {
             />
           );
         }
-      }
+      };
 
 //custom design for the system message text 
       customSystemMessage(props) {
@@ -253,7 +256,7 @@ export default class Chat extends React.Component {
         label={'Send'}
         />
         )
-    }
+    };
 
     renderCustomActions = (props) => {
       return <CustomActions {...props} />;
@@ -275,7 +278,7 @@ export default class Chat extends React.Component {
         );
       }
       return null;
-    }
+    };
 
   render() {
 

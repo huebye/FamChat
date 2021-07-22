@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, TextInput, Alert, Button, TouchableOpacity } fr
 export default class Start extends React.Component {
  constructor(props) {
    super(props);
+   
    this.state = { name: '',
                   backColor: '#ADFFDD',
                   textInputColor: '#D4FFED',
