@@ -18,8 +18,10 @@ export default class Chat extends React.Component {
             uid: 0,
             isConnected: false,
         };
+/**
+ * Initialize Firebase
+ */
 
-        // Initialize Firebase
         if (!firebase.apps.length) {
           firebase.initializeApp({
             apiKey: "AIzaSyAW0LCmy1ck_ZPDwI9QMljtzPFqIzqDvVs",
@@ -36,7 +38,9 @@ export default class Chat extends React.Component {
       this.referenceChatMessages = firebase.firestore().collection("messages");
     };
 
-      // when component is mounted the message is being set 
+/**
+ * when component is mounted the message is being set 
+ */
       componentDidMount() {
 
         NetInfo.fetch().then(connection => {
@@ -74,7 +78,10 @@ export default class Chat extends React.Component {
         this.referenceChatMessages = () => {}
      };
 
-//get messages from saved messages in localStorage
+
+/**
+ * get messages from saved messages in localStorage
+ */
      async getMessages() {
       let messages = '';
       try {
@@ -99,12 +106,17 @@ export default class Chat extends React.Component {
       }
     };
 
-//takes a snapshot of the data stored on firbase server and updates the state: messages 
+/**
+ * takes a snapshot of the data stored on firbase server and updates the state: messages 
+ */
+
       onCollectionUpdate = (querySnapshot) => {
 
         const messages = [];
+
         // go through each document
         querySnapshot.forEach((doc) => {
+          
           // get the QueryDocumentSnapshot's data
           var data = doc.data();
           messages.push({
@@ -121,7 +133,9 @@ export default class Chat extends React.Component {
         });
       };
 
-// save message on firebase server 
+/**
+ * save message on firebase server 
+ */
       addMessages = () => {
         const messages = this.state.messages[0];
         firebase.firestore().collection('messages').add({
@@ -138,8 +152,9 @@ export default class Chat extends React.Component {
         .catch((error) => console.log('error', error));
       };
 
-
-//save messages in localStorage and stringify messages so they can be stored
+/**
+ * save messages in localStorage and stringify messages so they can be stored
+ */
       async saveMessages() {
         try {
           await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
@@ -158,8 +173,9 @@ export default class Chat extends React.Component {
           console.log(error.message);
         }
       };
-
-//onSend messages are being added to the state and addMessages(),saveMessages() is called
+/**
+ * onSend messages are being added to the state and addMessages(),saveMessages() is called
+ */
       onSend(messages = []) {
         this.setState(previousState => ({
           messages: GiftedChat.append(previousState.messages, messages),
@@ -170,8 +186,9 @@ export default class Chat extends React.Component {
         }
         );
       };
-
-// custom designt for the text message bubbles being send and recieved       
+/**
+ * custom designt for the text message bubbles being send and recieved  
+ */     
       renderBubble(props) {
         return (
           <Bubble
@@ -189,8 +206,9 @@ export default class Chat extends React.Component {
           />
         )
       };
-
-//custom desing for the input bar       
+/**
+ * custom desing for the input bar   
+ */    
       renderInputToolbar(props) {
         if (this.state.isConnected === false) {
         } else {
@@ -207,8 +225,9 @@ export default class Chat extends React.Component {
           );
         }
       };
-
-//custom design for the system message text 
+/**
+ * custom design for the system message text 
+ */
       customSystemMessage(props) {
           return (
               <SystemMessage 
@@ -217,8 +236,9 @@ export default class Chat extends React.Component {
               />
           )
       };
-
-//custom desing for the day text 
+/**
+ * custom desing for the day text 
+ */
       customDay(props) {
         return (
             <Day 
@@ -227,8 +247,9 @@ export default class Chat extends React.Component {
             />
         )
     };
-
-//custom design for the placeholder input text 
+/**
+ * custom design for the placeholder input text 
+ */
     customComposer(props) {
         if(this.state.backColor === '#ADFFDD' || this.state.backColor === '#FFDD9A') {
             return (
@@ -244,8 +265,9 @@ export default class Chat extends React.Component {
             />
         )
     };
-
- // custom design for the send button   
+/**
+ * custom design for the send button   
+ */
     customSend(props) {
         return(
         <Send 
@@ -282,8 +304,7 @@ export default class Chat extends React.Component {
 
   render() {
 
-    let name = this.props.route.params.name; // OR ...
-    // let { name } = this.props.route.params;
+    let name = this.props.route.params.name; 
 
     this.props.navigation.setOptions({ title: name });
     return (

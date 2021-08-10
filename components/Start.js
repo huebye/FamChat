@@ -12,42 +12,47 @@ export default class Start extends React.Component {
                 };
  }
 
+setColorState(backColor, textInputColor, buttonColor) {
+  this.setState({backColor, textInputColor, buttonColor})
+};
+
  render() {
-     //set title of screen
-    this.props.navigation.setOptions({ title: 'FamChat' });
+
+    this.props.navigation.setOptions({ title: 'FamChat' });//set title of screen
+    
    return (
-     <View style={{flex: 1, flexDirection: 'column', backgroundColor: this.state.backColor, alignItems: 'center', justifyContent: 'center'}}>
-         <View style={{flex: 20, justifyContent:'center', position: 'relative', top: 60}}>
-         <Text style={{textAlign: 'center', fontSize: 29,position: 'relative', right: 52, fontWeight: '600'}}>Welcome to </Text>
-         <Text style={{textAlign: 'center', fontSize: 45, fontWeight: '900'}}>FamChat</Text>
+     <View style={{...styles.viewStyle,...{backgroundColor: this.state.backColor}}} >
+         <View style={styles.titleBox}>
+         <Text style={styles.title1}>Welcome to </Text>
+         <Text style={styles.title2}>FamChat</Text>
          </View>
          <View style={styles.box2}>
          <TextInput
-         style={{borderWidth: 1,borderColor: 'grey', textAlign: 'center', height: 40, backgroundColor: this.state.textInputColor, margin: 20}}
+         style={{...styles.textInput,...{backgroundColor: this.state.textInputColor}}}
          onChangeText={(name) => this.setState({name})}
          value={this.state.text}
          placeholder='Your Name'
        />
-       <Text style={{color: 'white', fontWeight: '500', textAlign: 'center', marginTop: 30}}>Choose Background Color:</Text>
-       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center', marginTop: 0}}>
-       <TouchableOpacity style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#FFDD9A', margin: 10}} 
-       onPress={() => this.setState({ backColor: '#FFDD9A', textInputColor: '#FFEECD', buttonColor: '#FFC148' })}
+       <Text style={styles.colorChoiceText}>Choose Background Color:</Text>
+       <View style={styles.colorChoiceBox}>
+       <TouchableOpacity style={styles.colorBtn1}
+       onPress={() => this.setColorState('#FFDD9A', '#FFEECD','#FFC148')}
        accessible={true}
        accessibilityLabel="Option of 3 colors"
        accessibilityHint="Let’s you choose three different colors for the background color of your choice"
        accessibilityRole="button"
        >
        </TouchableOpacity>
-       <TouchableOpacity style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#B0B8FF', margin: 10}} 
-       onPress={() => this.setState({ backColor: '#B0B8FF', textInputColor: '#D2D7FF', buttonColor: '#8A6CFF' })}
+       <TouchableOpacity style={styles.colorBtn2}
+       onPress={() => this.setColorState('#B0B8FF', '#D2D7FF', '#8A6CFF')}
        accessible={true}
        accessibilityLabel="Option of 3 colors"
        accessibilityHint="Let’s you choose three different colors for the background color of your choice"
        accessibilityRole="button"
        >
        </TouchableOpacity>
-       <TouchableOpacity style={{width: 50, height: 50, borderRadius: 25, backgroundColor: '#ADFFDD', margin: 10}} 
-       onPress={() => this.setState({ backColor: '#ADFFDD', textInputColor: '#D4FFED', buttonColor: '#548A73' })}
+       <TouchableOpacity style={styles.colorBtn3}
+       onPress={() => this.setColorState('#ADFFDD','#D4FFED', '#548A73')}
        accessible={true}
        accessibilityLabel="Option of 3 colors"
        accessibilityHint="Let’s you choose three different colors for the background color of your choice"
@@ -67,6 +72,24 @@ export default class Start extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    titleBox: {
+      flex: 20, 
+      justifyContent:'center', 
+      position: 'relative', 
+      top: 60
+    },
+    title1: {
+      textAlign: 'center', 
+      fontSize: 29,
+      position: 'relative', 
+      right: 52, 
+      fontWeight: '600'
+    },
+    title2: {
+      textAlign: 'center', 
+      fontSize: 45, 
+      fontWeight: '900'
+    },
     box2: {
         flex: 40,
         backgroundColor: '#3E4140',
@@ -77,6 +100,51 @@ const styles = StyleSheet.create({
         height: '70%',
         borderRadius: 5,
         paddingBottom: 30
+    },
+    viewStyle: {
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'center', 
+      justifyContent: 'center',
+    },
+    textInput: {
+      borderWidth: 1,
+      borderColor: 'grey', 
+      textAlign: 'center', 
+      height: 40,
+      margin: 20
+    },
+    colorBtn1: {
+      width: 50, 
+      height: 50,  
+      borderRadius: 25, 
+      backgroundColor: '#FFDD9A', 
+      margin: 10
+    },
+    colorBtn2: {
+      width: 50, 
+      height: 50,  
+      borderRadius: 25, 
+      backgroundColor: '#B0B8FF', 
+      margin: 10
+    },
+    colorBtn3: {
+      width: 50, 
+      height: 50,  
+      borderRadius: 25, 
+      backgroundColor: '#ADFFDD', 
+      margin: 10
+    },
+    colorChoiceText: {
+      color: 'white', 
+      fontWeight: '500', 
+      textAlign: 'center', 
+      marginTop: 30
+    },
+    colorChoiceBox: {
+      flex: 1, 
+      flexDirection: 'row', 
+      justifyContent: 'center', 
+      marginTop: 0
     }
-
   });

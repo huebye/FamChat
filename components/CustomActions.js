@@ -10,8 +10,9 @@ import * as Location from "expo-location";
 
 export default class CustomActions extends React.Component {
     
-
-//allows you to pick an image from you library and sends a prop
+/**
+ * allows user to pick an image from their library and sends a prop
+ */
     imagePicker = async () => {
         // expo permission
         const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -32,8 +33,9 @@ export default class CustomActions extends React.Component {
         }
       };
 
-//allows you to take a picture and send it
-
+/**
+ * allows user to take a picture and send it
+ */
       takePhoto = async () => {
         const { status } = await Permissions.askAsync(
           Permissions.CAMERA,
@@ -55,7 +57,9 @@ export default class CustomActions extends React.Component {
         }
       };
 
-//allows you to share your location with someone else
+/**
+ * allows user to share their location with someone else
+ */
       getLocation = async () => {
         try {
           const { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -79,7 +83,9 @@ export default class CustomActions extends React.Component {
         }
       };
 
-//uploads Images to the firebase storage
+/**
+ * uploads Images to the firebase storage
+ */
       uploadImageFetch = async (uri) => {
         const blob = await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
@@ -107,7 +113,9 @@ export default class CustomActions extends React.Component {
         return await snapshot.ref.getDownloadURL();
       };
 
-//opens list of actions when pressing '+' sign in textinput bar 
+/**
+ * opens a list of actions when pressing '+' sign in textinput bar 
+ */
     onActionPress = () => {
 
         const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
@@ -167,7 +175,9 @@ const styles = StyleSheet.create({
    });
 
 
-//create a contextType that is being use by the onActionPress function and allows the function to be used as a proptype
+/**
+ * create a contextType that is being use by the onActionPress function and allows the function to be used as a proptype
+ */
    CustomActions.contextTypes = {
     actionSheet: PropTypes.func,
    };
